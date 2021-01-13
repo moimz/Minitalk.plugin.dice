@@ -10,11 +10,7 @@
  * @modified 2020. 12. 28.
  */
 Minitalk.on("connect",function(minitalk) {
-	if (Minitalk.version < 70000) {
-		minitalk.ui.printMessage("plugin","[주사위 플러그인] 채팅창에 /주사위 [돌릴 숫자]를 쳐보세요. 주사위 결과가 출력 됩니다.");
-	} else {
-		minitalk.ui.printSystemMessage("info","[주사위 플러그인] 채팅창에 /주사위 [돌릴 숫자]를 쳐보세요. 주사위 결과가 출력 됩니다.");
-	}
+	minitalk.ui.printSystemMessage("plugin","[주사위 플러그인] 채팅창에 /주사위 [돌릴 숫자]를 쳐보세요. 주사위 결과가 출력 됩니다.");
 });
 
 // 사용자정의 명령어 이벤트를 받아, 주사위 명령어를 처리한다.
