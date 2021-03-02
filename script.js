@@ -6,8 +6,8 @@
  * @file /plugins/dice/script.js
  * @author Arzz (arzz@arzz.com)
  * @license MIT License
- * @version 1.0.0
- * @modified 2021. 1. 21.
+ * @version 1.0.1
+ * @modified 2021. 3. 2.
  */
 if (Minitalk === undefined) return;
 
@@ -30,25 +30,27 @@ Minitalk.on("command",function(minitalk,command,commands) {
 
 // 사용자정의 메시지 타입 이벤트를 받아, 화면에 보여준다.
 Minitalk.on("printMessage",function(minitalk,message,$content) {
-	/**
-	 * 내용을 담을 말풍선을 생성한다.
-	 */
-	var $balloon = $("<div>").attr("data-role","balloon");
-	$balloon.append($("<span>").addClass("text").html(Minitalk.ui.decodeMessage(message.message)));
-	
-	if (message.time === undefined) {
-		$balloon.append($("<span>").addClass("time").html('<i class="sending"></i>'));
-	} else {
-		$balloon.append($("<span>").addClass("time").html($("<time>").attr("datetime",message.time).html(Minitalk.getTime(message.time,Minitalk.dateFormat))));
+	if (message.type == "dice") {
+		/**
+		 * 내용을 담을 말풍선을 생성한다.
+		 */
+		var $balloon = $("<div>").attr("data-role","balloon");
+		$balloon.append($("<span>").addClass("text").html(Minitalk.ui.decodeMessage(message.message)));
+		
+		if (message.time === undefined) {
+			$balloon.append($("<span>").addClass("time").html('<i class="sending"></i>'));
+		} else {
+			$balloon.append($("<span>").addClass("time").html($("<time>").attr("datetime",message.time).html(Minitalk.getTime(message.time,Minitalk.dateFormat))));
+		}
+		
+		$content.append($balloon);
+		
+		/**
+		 * 주사위 굴림 결과를 보여준다.
+		 */
+		var $result = $("<div>").attr("data-role","dice").css("fontSize","12px").css("color","green");
+		$result.append("주사위 굴림 결과 <b>" + message.data.result + "</b> 이 나왔습니다.");
+		
+		$content.append($result);
 	}
-	
-	$content.append($balloon);
-	
-	/**
-	 * 주사위 굴림 결과를 보여준다.
-	 */
-	var $result = $("<div>").attr("data-role","dice").css("fontSize","12px").css("color","green");
-	$result.append("주사위 굴림 결과 <b>" + message.data.result + "</b> 이 나왔습니다.");
-	
-	$content.append($result);
 });
